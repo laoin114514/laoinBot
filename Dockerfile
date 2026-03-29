@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM alpine:3.20
+FROM registry.cn-hangzhou.aliyuncs.com/library/alpine:3.20
 
 WORKDIR /app
 
