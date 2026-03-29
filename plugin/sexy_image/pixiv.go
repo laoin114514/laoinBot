@@ -31,10 +31,10 @@ type PixivApiParams struct {
 
 func init() {
 	nova.OnCommand("涩图").Handle(func(ctx *nova.Ctx) {
-		if nova.OnlyGroup(ctx) {
-			ctx.Send("请在私聊中使用awa")
-			return
-		}
+		// if nova.OnlyGroup(ctx) {
+		// 	ctx.Send("请在私聊中使用awa")
+		// 	return
+		// }
 		params := PixivApiParams{}
 
 		if err := handleParams(ctx, params); err != nil {
@@ -43,7 +43,7 @@ func init() {
 		}
 
 		if params.R18Type == 1 && !nova.SuperUserPermission(ctx) {
-			ctx.Send("只有laoin能用r18哦！" + message.Face(122).String())
+			ctx.Send("你没有权限使用awa" + message.Face(122).String())
 			return
 		}
 

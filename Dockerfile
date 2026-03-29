@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM registry.cn-hangzhou.aliyuncs.com/library/alpine:3.20
+FROM docker.m.daocloud.io/library/alpine:3.20
 
 WORKDIR /app
 
