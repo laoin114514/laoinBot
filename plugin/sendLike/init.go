@@ -26,6 +26,6 @@ func init() {
 			return
 		}
 
-		ctx.Send(fmt.Sprintf("%s%s点赞成功，已点赞%d次%s", message.At(userID), message.Reply(msgID), count, message.Face(rand.Intn(100)).String()))
+		ctx.Send(fmt.Sprintf("%s%s点赞成功，已点赞%d次%s", message.At(userID), message.Reply(msgID), count*10, message.Face(rand.Intn(100)).String()))
 	})
 }

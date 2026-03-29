@@ -1,4 +1,4 @@
-package sexyimage
+package sexy_image
 
 import (
 	"errors"
@@ -89,4 +89,20 @@ func getOneSexyImage(params SearchParams) (url string, err error) {
 		return url, errors.New("图片URL获取失败")
 	}
 	return result.Data[0].UrlsList[0].URL, nil
+}
+
+func getOne2DImage() (url []byte, err error) {
+	c := resty.New()
+	var result APIResponse
+	resp, err := c.R().
+		SetResult(APIResponse{}).
+		SetResult(&result).
+		Post("https://api.yppp.net/api.php")
+	if err != nil {
+		return nil, err
+	}
+	if resp.IsError() {
+		return nil, errors.New(resp.Status())
+	}
+	return resp.Body(), nil
 }

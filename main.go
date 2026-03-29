@@ -3,7 +3,8 @@ package main
 import (
 	_ "laoinBot/plugin/chat"
 	_ "laoinBot/plugin/sendLike"
-	_ "laoinBot/plugin/sexyImage"
+	_ "laoinBot/plugin/send_lizi_image"
+	_ "laoinBot/plugin/sexy_image"
 
 	zero "github.com/laoin114514/NovaBot"
 	"github.com/laoin114514/NovaBot/driver"
