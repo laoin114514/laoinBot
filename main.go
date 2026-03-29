@@ -1,22 +1,28 @@
 package main
 
 import (
+	"laoinBot/config"
 	_ "laoinBot/plugin/chat"
 	_ "laoinBot/plugin/sendLike"
 	_ "laoinBot/plugin/send_lizi_image"
 	_ "laoinBot/plugin/sexy_image"
+	"log"
 
 	zero "github.com/laoin114514/NovaBot"
 	"github.com/laoin114514/NovaBot/driver"
 )
 
 func main() {
+	err := config.LoadConfig("config/config.yml")
+	if err != nil {
+		log.Fatalf("Failed to load config: %v", err)
+	}
 	zero.RunAndBlock(&zero.Config{
-		NickName:      []string{"laoin"},
+		NickName:      config.BotConfig.MainConfig.NickName,
 		CommandPrefix: "/",
-		SuperUsers:    []int64{2908451607},
+		SuperUsers:    config.BotConfig.MainConfig.SuperUser,
 		Driver: []zero.Driver{
-			driver.NewWebSocketClient("ws://123.56.140.27:6101", "laoinNB666"),
+			driver.NewWebSocketClient(config.BotConfig.MainConfig.NapcatUrl, config.BotConfig.MainConfig.NapcatToken),
 		},
 	}, nil)
 }

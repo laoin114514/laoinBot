@@ -1,0 +1,7 @@
+mainConfig:
+  nickName:
+    - "x"
+  superUser:
+    - 11111
+  napcatUrl: ws://xxxxx
+  napcatToken: xxx
