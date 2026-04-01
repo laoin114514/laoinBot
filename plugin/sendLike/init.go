@@ -2,6 +2,7 @@ package sendlike
 
 import (
 	"fmt"
+	"laoinBot/plugin/help"
 	"math/rand"
 
 	nova "github.com/laoin114514/NovaBot"
@@ -9,6 +10,7 @@ import (
 )
 
 func init() {
+	help.HelpInstance.SetHelper("赞我", "发送点赞至最大值", "赞我")
 	nova.OnFullMatch("赞我", nova.OnlyGroup).Handle(func(ctx *nova.Ctx) {
 		userID := ctx.Event.UserID
 		msgID := ctx.Event.MessageID

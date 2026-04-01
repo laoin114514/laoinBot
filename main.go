@@ -2,10 +2,10 @@ package main
 
 import (
 	"laoinBot/config"
-	_ "laoinBot/plugin/chat"
+	_ "laoinBot/plugin/cangmiao_func"
+	_ "laoinBot/plugin/help"
 	_ "laoinBot/plugin/sendLike"
 	_ "laoinBot/plugin/send_lizi_image"
-	_ "laoinBot/plugin/sexy_image"
 	"log"
 
 	zero "github.com/laoin114514/NovaBot"

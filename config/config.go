@@ -7,7 +7,8 @@ import (
 )
 
 type Config struct {
-	MainConfig MainConfig `yaml:"mainConfig"`
+	MainConfig  MainConfig `yaml:"mainConfig"`
+	CangMiaoKey string     `yaml:"cangmiaoKey"`
 }
 
 var BotConfig *Config
@@ -19,8 +20,11 @@ type MainConfig struct {
 	NapcatToken string   `yaml:"napcatToken"`
 }
 
-func LoadConfig(path string) error {
-	f, err := os.Open(path)
+func LoadConfig(path ...string) error {
+	if len(path) == 0 {
+		path = []string{"config/config.yml"}
+	}
+	f, err := os.Open(path[0])
 	if err != nil {
 		return err
 	}

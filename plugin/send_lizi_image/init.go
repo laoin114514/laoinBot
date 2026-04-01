@@ -2,6 +2,7 @@ package send_lizi_image
 
 import (
 	"errors"
+	"laoinBot/plugin/help"
 	"strings"
 
 	nova "github.com/laoin114514/NovaBot"
@@ -9,7 +10,8 @@ import (
 )
 
 func init() {
-	nova.OnCommand("随机图").Handle(func(ctx *nova.Ctx) {
+	help.HelpInstance.SetHelper("动漫图", "发送动漫图", "动漫图 <参数>")
+	nova.OnPrefix("动漫图").Handle(func(ctx *nova.Ctx) {
 		argsText, _ := ctx.State["args"].(string)
 		param, err := handleParams(ctx, argsText)
 		if err != nil {

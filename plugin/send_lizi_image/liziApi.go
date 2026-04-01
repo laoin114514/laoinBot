@@ -22,17 +22,18 @@ var LiziGetter = NewLiziApi("https://t.alcy.cc/")
 
 type LiziApi struct {
 	baseURL string
+	client  *resty.Client
 }
 
 func NewLiziApi(baseURL string) *LiziApi {
 	return &LiziApi{
 		baseURL: baseURL,
+		client:  resty.New(),
 	}
 }
 
 func (l *LiziApi) GetOneImage(suffix string) ([]byte, error) {
-	c := resty.New()
-	resp, err := c.R().
+	resp, err := l.client.R().
 		Get(l.baseURL + suffix)
 	if err != nil {
 		return nil, err
