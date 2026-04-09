@@ -169,9 +169,7 @@ func init() {
 
 		imageBytes, err := renderHelpAsImage(helperList)
 		if err != nil {
-			for _, helper := range helperList {
-				ctx.Send(helper.GetOrder() + " - " + helper.GetExplain() + " - " + helper.GetExample())
-			}
+			ctx.Send("生成帮助图片失败: " + err.Error())
 			return
 		}
 
