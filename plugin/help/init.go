@@ -110,7 +110,7 @@ func renderHelpAsImage(helperList []Help) ([]byte, error) {
 		})
 	}
 
-	htmlTplBytes, err := os.ReadFile("plugin/help/template.html")
+	htmlTplBytes, err := os.ReadFile("public/help_template.html")
 	if err != nil {
 		return nil, err
 	}

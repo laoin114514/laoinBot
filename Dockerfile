@@ -20,6 +20,7 @@ RUN sed -i 's|https://dl-cdn.alpinelinux.org/alpine|https://mirrors.aliyun.com/a
 # 仅拷贝已编译好的可执行文件（不在 Docker 内构建）
 COPY laoinBot /app/laoinBot
 COPY config /app/config
+COPY public /app/public
 RUN chmod +x /app/laoinBot
 
 ENV TZ=Asia/Shanghai
