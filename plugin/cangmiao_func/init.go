@@ -15,6 +15,10 @@ func init() {
 	help.HelpInstance.SetHelper("写真图", "发送写真图", "写真图 <参数>")
 	nova.OnPrefix("写真图").Handle(func(ctx *nova.Ctx) {
 		argsText, _ := ctx.State["args"].(string)
+		if argsText == "瑟瑟" {
+			ctx.Send("瑟瑟只有laoin能用")
+			return
+		}
 		param, err := handleParams(ctx, argsText)
 		if err != nil {
 			ctx.Send(err.Error())
@@ -33,15 +37,28 @@ func init() {
 		}
 	})
 
-	help.HelpInstance.SetHelper("查询号码", "查询号码归属地", "查询号码归属地 <参数>")
+	help.HelpInstance.SetHelper("查询号码", "查询号码归属地", "查询号码 <参数>")
 	nova.OnPrefix("查询号码").Handle(func(ctx *nova.Ctx) {
+		msgID := ctx.Event.MessageID
 		argsText, _ := ctx.State["args"].(string)
 		address, err := CangMiaoGetter.GetPhoneAdress(argsText)
 		if err != nil {
-			ctx.Send("获取号码归属地失败: " + err.Error())
+			ctx.Send(message.Reply(msgID).String() + "获取号码归属地失败: " + err.Error())
 			return
 		}
-		ctx.Send(address)
+		ctx.Send(message.Reply(msgID).String() + address)
+	})
+
+	help.HelpInstance.SetHelper("查询IP", "查询IP归属地", "查询IP <参数>")
+	nova.OnPrefix("查询IP").Handle(func(ctx *nova.Ctx) {
+		msgID := ctx.Event.MessageID
+		argsText, _ := ctx.State["args"].(string)
+		address, err := CangMiaoGetter.GetIPAdress(argsText)
+		if err != nil {
+			ctx.Send(message.Reply(msgID).String() + "获取IP归属地失败: " + err.Error())
+			return
+		}
+		ctx.Send(message.Reply(msgID).String() + address)
 	})
 }
 

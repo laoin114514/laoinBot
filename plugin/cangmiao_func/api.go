@@ -95,3 +95,31 @@ func (c *CangMiaoApi) GetPhoneAdress(phoneNum string) (string, error) {
 	}
 	return string(resp.Body()), nil
 }
+
+type IPResponse struct {
+	IP        string  `json:"ip"`
+	Latitude  float64 `json:"latitude"`
+	Rectangle string  `json:"rectangle"`
+	Location  string  `json:"location"`
+	Timestamp int64   `json:"timestamp"`
+}
+
+func (c *CangMiaoApi) GetIPAdress(ip string) (string, error) {
+	var result IPResponse
+	resp, err := c.client.R().
+		SetResult(&result).
+		SetQueryParams(map[string]string{
+			"ip": ip,
+		}).
+		Get(c.baseURL + "ip")
+	if err != nil {
+		return "", errors.New("获取IP归属地失败: " + err.Error())
+	}
+	if resp.IsError() {
+		return "", errors.New("获取IP归属地失败: " + resp.Status())
+	}
+	if resp.StatusCode() != http.StatusOK {
+		return "", errors.New("获取IP归属地失败: " + resp.Status())
+	}
+	return result.Location, nil
+}

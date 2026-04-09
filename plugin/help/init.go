@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"html/template"
+	"os"
 	"sort"
 	"time"
 
@@ -109,109 +110,12 @@ func renderHelpAsImage(helperList []Help) ([]byte, error) {
 		})
 	}
 
-	const htmlTpl = `<!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<style>
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 24px;
-    background: linear-gradient(135deg, #f8fafc, #eef2ff);
-    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-    color: #0f172a;
-  }
-  .card {
-    width: 1100px;
-    margin: 0 auto;
-    background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 12px 28px rgba(15, 23, 42, .12);
-    overflow: hidden;
-  }
-  .header {
-    padding: 22px 26px;
-    background: linear-gradient(90deg, #4f46e5, #7c3aed);
-    color: white;
-  }
-  .title {
-    font-size: 30px;
-    font-weight: 700;
-    margin: 0;
-  }
-  .sub {
-    margin-top: 8px;
-    opacity: .92;
-    font-size: 16px;
-  }
-  .table-wrap { padding: 16px 18px 22px; }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  th {
-    text-align: left;
-    background: #eef2ff;
-    color: #312e81;
-    font-weight: 700;
-    padding: 12px 10px;
-    border-bottom: 1px solid #e5e7eb;
-    font-size: 14px;
-  }
-  td {
-    padding: 12px 10px;
-    border-bottom: 1px solid #f1f5f9;
-    vertical-align: top;
-    word-break: break-word;
-    line-height: 1.5;
-    font-size: 14px;
-  }
-  tr:nth-child(even) td { background: #fafbff; }
-  .idx { width: 64px; text-align: center; }
-  .cmd { width: 240px; font-weight: 700; color: #1d4ed8; }
-  .desc { width: 330px; }
-  .ex { width: 430px; color: #334155; }
-</style>
-</head>
-<body>
-  <div class="card">
-    <div class="header">
-      <h1 class="title">机器人帮助菜单</h1>
-      <div class="sub">共 {{len .}} 条指令</div>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th class="idx">#</th>
-            <th class="cmd">指令</th>
-            <th class="desc">说明</th>
-            <th class="ex">示例</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{range .}}
-          <tr>
-            <td class="idx">{{.Index}}</td>
-            <td class="cmd">{{.Order}}</td>
-            <td class="desc">{{.Explain}}</td>
-            <td class="ex">{{.Example}}</td>
-          </tr>
-          {{end}}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</body>
-</html>`
+	htmlTplBytes, err := os.ReadFile("plugin/help/template.html")
+	if err != nil {
+		return nil, err
+	}
 
-	tpl, err := template.New("help").Parse(htmlTpl)
+	tpl, err := template.New("help").Parse(string(htmlTplBytes))
 	if err != nil {
 		return nil, err
 	}
@@ -231,7 +135,7 @@ func renderHelpAsImage(helperList []Help) ([]byte, error) {
 			chromedp.Flag("headless", true),
 			chromedp.Flag("no-sandbox", true),
 			chromedp.Flag("disable-gpu", true),
-			chromedp.WindowSize(1200, 900),
+			chromedp.WindowSize(1100, 900),
 		)...,
 	)
 	defer cancelAlloc()
@@ -245,8 +149,8 @@ func renderHelpAsImage(helperList []Help) ([]byte, error) {
 	var imageBytes []byte
 	err = chromedp.Run(timeoutCtx,
 		chromedp.Navigate(url),
-		chromedp.WaitVisible("table", chromedp.ByQuery),
-		chromedp.FullScreenshot(&imageBytes, 95),
+		chromedp.WaitVisible(".help-root", chromedp.ByQuery),
+		chromedp.Screenshot(".help-root", &imageBytes, chromedp.NodeVisible, chromedp.ByQuery),
 	)
 	if err != nil {
 		return nil, err
@@ -255,6 +159,7 @@ func renderHelpAsImage(helperList []Help) ([]byte, error) {
 }
 
 func init() {
+	HelpInstance.SetHelper("帮助", "查看帮助", "帮助")
 	nova.OnFullMatch("帮助").Handle(func(ctx *nova.Ctx) {
 		helperList := HelpInstance.GetHelperList()
 		if len(helperList) == 0 {

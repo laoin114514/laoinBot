@@ -6,6 +6,7 @@ import (
 	_ "laoinBot/plugin/help"
 	_ "laoinBot/plugin/sendLike"
 	_ "laoinBot/plugin/send_lizi_image"
+	_ "laoinBot/plugin/xiaoxiao_func"
 	"log"
 
 	zero "github.com/laoin114514/NovaBot"
