@@ -3,10 +3,8 @@ package cangmiao_func
 import (
 	"errors"
 	"laoinBot/plugin/help"
-	"os"
 	"strings"
 
-	"github.com/go-resty/resty/v2"
 	nova "github.com/laoin114514/NovaBot"
 	"github.com/laoin114514/NovaBot/message"
 )
@@ -29,7 +27,6 @@ func init() {
 			ctx.Send("图片获取失败" + err.Error())
 			return
 		}
-		saveImage(img.Img)
 		msgID := ctx.Send(message.ImageBytes(img.ToByte()).String())
 		if msgID.ID() == 0 {
 			ctx.Send("图片发送失败")
@@ -76,23 +73,4 @@ func handleParams(ctx *nova.Ctx, argsText string) (string, error) {
 		return "", errors.New("参数错误: " + param + "\n可用参数: \n" + strings.Join(repoList, "\n"))
 	}
 	return ImageRepos[param], nil
-}
-
-func saveImage(img string) error {
-	c := resty.New()
-	resp, err := c.R().
-		Get(img)
-	if err != nil {
-		return err
-	}
-	if resp.IsError() {
-		return errors.New("图片获取失败: " + resp.Status())
-	}
-	file, err := os.Create("image.jpg")
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	file.Write(resp.Body())
-	return nil
 }

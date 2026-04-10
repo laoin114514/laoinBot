@@ -8,12 +8,15 @@ import (
 	"html/template"
 	"os"
 	"sort"
+	"sync"
 	"time"
 
 	"github.com/chromedp/chromedp"
 	nova "github.com/laoin114514/NovaBot"
 	"github.com/laoin114514/NovaBot/message"
 )
+
+var mutex = sync.Mutex{}
 
 type Help struct {
 	order   string
@@ -157,22 +160,47 @@ func renderHelpAsImage(helperList []Help) ([]byte, error) {
 	}
 	return imageBytes, nil
 }
-
+func saveImage(imageBytes []byte, path string) error {
+	mutex.Lock()
+	defer mutex.Unlock()
+	err := os.WriteFile(path, imageBytes, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 func init() {
+	imageCachePath := "public/help_cache.png"
 	HelpInstance.SetHelper("帮助", "查看帮助", "帮助")
 	nova.OnFullMatch("帮助").Handle(func(ctx *nova.Ctx) {
-		helperList := HelpInstance.GetHelperList()
-		if len(helperList) == 0 {
-			ctx.Send("暂无帮助内容")
-			return
-		}
-
-		imageBytes, err := renderHelpAsImage(helperList)
+		imageBytes, err := os.ReadFile(imageCachePath)
 		if err != nil {
-			ctx.Send("生成帮助图片失败: " + err.Error())
-			return
+			imageBytes, err = generateAndSaveHelpImage(imageCachePath)
+			if err != nil {
+				ctx.Send("生成帮助图片失败")
+				return
+			}
 		}
-
 		ctx.Send(message.ImageBytes(imageBytes).String())
+
+		generateAndSaveHelpImage(imageCachePath)
 	})
+}
+
+func generateAndSaveHelpImage(imageCachePath string) ([]byte, error) {
+	helperList := HelpInstance.GetHelperList()
+	if len(helperList) == 0 {
+		return nil, errors.New("no helper found")
+	}
+
+	newImageBytes, err := renderHelpAsImage(helperList)
+	if err != nil {
+		return nil, err
+	}
+
+	err = saveImage(newImageBytes, imageCachePath)
+	if err != nil {
+		return nil, err
+	}
+	return newImageBytes, nil
 }
