@@ -9,6 +9,7 @@ import (
 type Config struct {
 	MainConfig  MainConfig `yaml:"mainConfig"`
 	CangMiaoKey string     `yaml:"cangmiaoKey"`
+	Db          DbConfig   `yaml:"db"`
 }
 
 var BotConfig *Config
@@ -18,6 +19,14 @@ type MainConfig struct {
 	SuperUser   []int64  `yaml:"superUser"`
 	NapcatUrl   string   `yaml:"napcatUrl"`
 	NapcatToken string   `yaml:"napcatToken"`
+}
+
+type DbConfig struct {
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
+	Dbname   string `yaml:"dbname"`
 }
 
 func LoadConfig(path ...string) error {

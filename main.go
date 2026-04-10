@@ -2,7 +2,9 @@ package main
 
 import (
 	"laoinBot/config"
+	"laoinBot/config/db"
 	_ "laoinBot/plugin/cangmiao_func"
+	_ "laoinBot/plugin/galgame_recommand"
 	_ "laoinBot/plugin/help"
 	_ "laoinBot/plugin/sendLike"
 	_ "laoinBot/plugin/send_lizi_image"
@@ -13,11 +15,17 @@ import (
 	"github.com/laoin114514/NovaBot/driver"
 )
 
-func main() {
+func init() {
 	err := config.LoadConfig("config/config.yml")
 	if err != nil {
 		log.Fatalf("Failed to load config: %v", err)
 	}
+	err = db.InitDb()
+	if err != nil {
+		log.Fatalf("Failed to init db: %v", err)
+	}
+}
+func main() {
 	zero.RunAndBlock(&zero.Config{
 		NickName:      config.BotConfig.MainConfig.NickName,
 		CommandPrefix: "/",

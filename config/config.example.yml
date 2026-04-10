@@ -6,3 +6,9 @@ mainConfig:
   napcatUrl: ws://xxxxx
   napcatToken: xxx
 cangmiaoKey: xxxx
+db:
+  host: 0.0.0.0
+  port: 5432
+  user: postgres
+  password: xxx
+  dbname: qqbot
