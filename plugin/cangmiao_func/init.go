@@ -51,7 +51,7 @@ func init() {
 		msgID := ctx.Event.MessageID
 		argsText, _ := ctx.State["args"].(string)
 		address, err := CangMiaoGetter.GetIPAdress(argsText)
-		if err != nil {
+		if err != nil || address == "" {
 			ctx.Send(message.Reply(msgID).String() + "获取IP归属地失败: " + err.Error())
 			return
 		}

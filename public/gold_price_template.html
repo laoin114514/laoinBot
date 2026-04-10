@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实时金价查询</title>
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4eaf5 100%);
+      min-height: 100vh;
+      padding: 26px;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 34px;
+      color: #2c3e50;
+    }
+
+    .header h1 {
+      font-size: 40px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      line-height: 1.25;
+    }
+
+    .header h1 i {
+      color: #f1c40f;
+    }
+
+    .header p {
+      color: #7f8c8d;
+      font-size: 21px;
+      line-height: 1.55;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      padding: 28px;
+      margin-bottom: 26px;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-title {
+      font-size: 28px;
+      color: #2d3436;
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #f1c40f;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.35;
+    }
+
+    .card-title i {
+      color: #f39c12;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 18px 14px;
+      text-align: center;
+      font-size: 20px;
+      line-height: 1.65;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      color: #495057;
+      font-weight: bold;
+      font-size: 22px;
+      line-height: 1.5;
+    }
+
+    tr {
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:hover {
+      background-color: #fafafa;
+    }
+
+    .price {
+      color: #e74c3c;
+      font-weight: bold;
+      font-size: 22px;
+      line-height: 1.5;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 16px;
+      line-height: 1.4;
+      background: #e3f2fd;
+      color: #0277bd;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        padding: 18px;
+      }
+
+      th, td {
+        padding: 12px 8px;
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      .header h1 {
+        font-size: 28px;
+      }
+
+      .header p {
+        font-size: 18px;
+      }
+
+      .card-title {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fa-solid fa-coins"></i> 实时金价查询</h1>
+      <p>{{.SubTitle}}</p>
+    </div>
+
+    {{if eq .Mode "bank"}}
+    <div class="card">
+      <div class="card-title">
+        <i class="fa-solid fa-building-columns"></i> 银行投资金条价格
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>银行/金条名称</th>
+            <th>当前价格（元/克）</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range .BankGoldBarPrice}}
+          <tr>
+            <td>{{.Bank}}</td>
+            <td><span class="price">{{.Price}}</span></td>
+          </tr>
+          {{end}}
+        </tbody>
+      </table>
+    </div>
+    {{end}}
+
+    {{if eq .Mode "recycle"}}
+    <div class="card">
+      <div class="card-title">
+        <i class="fa-solid fa-recycle"></i> 黄金回收参考价格
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>回收类型</th>
+            <th>回收价格（元/克）</th>
+            <th>更新日期</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range .GoldRecyclePrice}}
+          <tr>
+            <td>{{.GoldType}}</td>
+            <td><span class="price">{{.RecyclePrice}}</span></td>
+            <td><span class="badge">{{.UpdatedDate}}</span></td>
+          </tr>
+          {{end}}
+        </tbody>
+      </table>
+    </div>
+    {{end}}
+
+    {{if eq .Mode "brand"}}
+    <div class="card">
+      <div class="card-title">
+        <i class="fa-solid fa-gem"></i> 品牌金店贵金属价格
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>品牌</th>
+            <th>投资金条</th>
+            <th>黄金零售价</th>
+            <th>铂金价格</th>
+            <th>更新日期</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range .PreciousMetalPrice}}
+          <tr>
+            <td>{{.Brand}}</td>
+            <td>{{.BullionPrice}}</td>
+            <td><span class="price">{{.GoldPrice}}</span></td>
+            <td>{{.PlatinumPrice}}</td>
+            <td><span class="badge">{{.UpdatedDate}}</span></td>
+          </tr>
+          {{end}}
+        </tbody>
+      </table>
+    </div>
+    {{end}}
+  </div>
+</body>
+</html>
