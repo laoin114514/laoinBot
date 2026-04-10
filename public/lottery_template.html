@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽签结果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #fdf6ec;
+            color: #333;
+        }
+
+        .lottery-card {
+            background: rgba(255, 255, 255, 0.94);
+            width: 100%;
+            max-width: 620px;
+            border-radius: 22px;
+            padding: 36px 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        .lottery-id {
+            display: inline-block;
+            background: #c49356;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .lottery-title {
+            font-size: 30px;
+            font-weight: bold;
+            color: #9a5629;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .lottery-img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            display: block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .poem-box {
+            background: #f9f1e6;
+            border-left: 4px solid #c49356;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            line-height: 1.8;
+            font-size: 18px;
+            color: #6d4c41;
+            white-space: pre-line;
+        }
+
+        .content-box {
+            line-height: 1.9;
+            font-size: 17px;
+            color: #444;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="lottery-card">
+        <img src="{{.Pic}}" class="lottery-img" alt="签文图">
+        <div class="content-box">{{.Content}}</div>
+    </div>
+</body>
+</html>
