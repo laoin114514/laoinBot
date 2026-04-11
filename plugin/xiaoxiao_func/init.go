@@ -197,4 +197,16 @@ func init() {
 
 		ctx.Send(message.ImageBytes(imageBytes).String())
 	})
+
+	help.HelpInstance.SetHelper("写真图二", "来一张写真图", "写真图二 <参数>")
+	nova.OnPrefix("写真图二").Handle(func(ctx *nova.Ctx) {
+		argsText, _ := ctx.State["args"].(string)
+		keyword := strings.TrimSpace(argsText)
+		image, err := XiaoxiaoGetter.GetImage(keyword)
+		if err != nil {
+			ctx.Send(err.Error())
+			return
+		}
+		ctx.Send(message.ImageBytes(image).String())
+	})
 }

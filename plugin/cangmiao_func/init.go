@@ -10,13 +10,13 @@ import (
 )
 
 func init() {
-	help.HelpInstance.SetHelper("写真图", "发送写真图", "写真图 <参数>")
-	nova.OnPrefix("写真图").Handle(func(ctx *nova.Ctx) {
+	help.HelpInstance.SetHelper("写真图一", "发送写真图1", "写真图一 <参数>")
+	nova.OnPrefix("写真图一").Handle(func(ctx *nova.Ctx) {
 		argsText, _ := ctx.State["args"].(string)
-		if argsText == "瑟瑟" {
-			ctx.Send("瑟瑟只有laoin能用")
-			return
-		}
+		// if argsText == "瑟瑟" {
+		// 	ctx.Send("瑟瑟只有laoin能用")
+		// 	return
+		// }
 		param, err := handleParams(ctx, argsText)
 		if err != nil {
 			ctx.Send(err.Error())

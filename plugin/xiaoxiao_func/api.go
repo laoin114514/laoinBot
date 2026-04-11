@@ -2,6 +2,7 @@ package xiaoxiaofunc
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/go-resty/resty/v2"
 )
@@ -117,4 +118,38 @@ func (c *XiaoxiaoApi) GetGoldPrice() (GoldPriceResponse, error) {
 		return GoldPriceResponse{}, errors.New("获取黄金价格失败: " + response.Msg)
 	}
 	return response, nil
+}
+
+var ImageRepo = map[string]string{
+	"竖屏美女": "wapmeinvpic",
+	"美女":   "meinvpic",
+	"横屏美女": "pcmeinvpic",
+	"jk":   "jk",
+	"黑丝":   "heisi",
+	"白丝":   "baisi",
+}
+
+func (c *XiaoxiaoApi) GetImage(keyword string) ([]byte, error) {
+	if _, ok := ImageRepo[keyword]; !ok {
+		keywordList := make([]string, 0, len(ImageRepo))
+		for k := range ImageRepo {
+			keywordList = append(keywordList, k)
+		}
+		return nil, errors.New("参数错误：" + keyword + "\n可用参数：\n" + strings.Join(keywordList, "\n"))
+	}
+	resp, err := c.client.R().
+		SetQueryParams(map[string]string{
+			"return": "302",
+		}).
+		Get(c.baseUrl + ImageRepo[keyword])
+	if err != nil {
+		return nil, err
+	}
+	if resp.IsError() {
+		return nil, errors.New("获取图片失败: " + resp.Status())
+	}
+	if resp.StatusCode() != 200 {
+		return nil, errors.New("获取图片失败: " + resp.Status())
+	}
+	return resp.Body(), nil
 }
