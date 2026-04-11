@@ -42,7 +42,9 @@ func renderGalgameAsImage(galgame table.Galgame) ([]byte, error) {
 	if len(tags) == 0 {
 		tags = append(tags, "暂无标签")
 	}
-
+	if galgame.Version == "" {
+		galgame.Version = "Ver0.0.0"
+	}
 	tplData := galgameTemplateData{
 		Code:         galgame.Code,
 		Name:         galgame.Name,
