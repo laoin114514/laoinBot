@@ -20,14 +20,28 @@
   .poster {
     width: 450px;
     background: #ffffff;
-    border-radius: 28px;
     overflow: hidden;
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
   }
   .cover {
     width: 100%;
     height: 260px;
+    background-color: #000000;
     background: url('https://t.alcy.cc/mp') center center / cover no-repeat;
+    position: relative;
+  }
+  .cover::before{
+    content: '';
+    background: url('https://t.alcy.cc/mp') center center / cover no-repeat;
+  }
+  .cover-note {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.2px;
   }
   .content {
     padding: 32px;
@@ -100,7 +114,9 @@
 <body>
 
 <div class="poster">
-  <div class="cover"></div>
+  <div class="cover">
+    <div class="cover-note">根本没封面，我随便放的</div>
+  </div>
 
   <div class="content">
     <div class="code">{{.Code}}</div>
@@ -129,6 +145,7 @@
         <div class="info-title">版本</div>
         <div class="info-text">{{.Version}}</div>
       </div>
+
     </div>
 
     <div class="intro-box">{{.Introduction}}</div>
