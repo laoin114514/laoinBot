@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>游戏海报</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f2f4f7;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+  }
+  .poster {
+    width: 450px;
+    background: #ffffff;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
+  }
+  .cover {
+    width: 100%;
+    height: 260px;
+    background: url('https://t.alcy.cc/mp') center center / cover no-repeat;
+  }
+  .content {
+    padding: 32px;
+  }
+  .code {
+    display: inline-block;
+    background: #f2f7ff;
+    color: #3366cc;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2329;
+    line-height: 1.4;
+    margin-bottom: 20px;
+  }
+  .tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .tag {
+    background: #f5f7fa;
+    color: #4e5969;
+    padding: 7px 13px;
+    border-radius: 18px;
+    font-size: 13px;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 26px;
+  }
+  .info-box {
+    background: #f9fafb;
+    padding: 14px;
+    border-radius: 16px;
+    text-align: center;
+  }
+  .info-title {
+    font-size: 12px;
+    color: #86909c;
+    margin-bottom: 4px;
+  }
+  .info-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2329;
+    word-break: break-word;
+  }
+  .intro-box {
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #4e5969;
+    white-space: pre-line;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="poster">
+  <div class="cover"></div>
+
+  <div class="content">
+    <div class="code">{{.Code}}</div>
+    <div class="name">{{.Name}}</div>
+
+    <div class="tag-group">
+      {{range .Tags}}
+      <span class="tag">{{.}}</span>
+      {{end}}
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="info-title">类型</div>
+        <div class="info-text">{{.Type}}</div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">平台</div>
+        <div class="info-text">{{.Platform}}</div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">大小</div>
+        <div class="info-text">{{.Size}}</div>
+      </div>
+      <div class="info-box">
+        <div class="info-title">版本</div>
+        <div class="info-text">{{.Version}}</div>
+      </div>
+    </div>
+
+    <div class="intro-box">{{.Introduction}}</div>
+  </div>
+</div>
+
+</body>
+</html>
