@@ -181,7 +181,7 @@ func renderJMPosterAsImage(album *jmapi.AlbumDetail, coverBytes []byte) ([]byte,
 
 func init() {
 	help.HelpInstance.SetHelper("本子推荐", "随机本子", "本子推荐 <关键词> <排序> <时间范围> <分类> <子分类>")
-	nova.OnPrefix("本子推荐").Handle(func(ctx *nova.Ctx) {
+	nova.OnPrefix("本子推荐", nova.SuperUserPermission).Handle(func(ctx *nova.Ctx) {
 		argsText, _ := ctx.State["args"].(string)
 		argsText = strings.TrimSpace(argsText)
 

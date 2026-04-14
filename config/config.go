@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 
+	"github.com/laoin114514/jmapi"
 	"go.yaml.in/yaml/v3"
 )
 
@@ -29,11 +30,11 @@ type DbConfig struct {
 	Dbname   string `yaml:"dbname"`
 }
 
-// var JMClient = jmapi.NewClient(jmapi.Config{
-// 	ClientType:        jmapi.ClientTypeAPI,
-// 	AutoUpdateHost:    true,
-// 	AutoEnsureCookies: true,
-// })
+var JMClient = jmapi.NewClient(jmapi.Config{
+	ClientType:        jmapi.ClientTypeAPI,
+	AutoUpdateHost:    true,
+	AutoEnsureCookies: true,
+})
 
 func LoadConfig(path ...string) error {
 	if len(path) == 0 {
