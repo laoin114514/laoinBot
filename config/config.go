@@ -29,6 +29,12 @@ type DbConfig struct {
 	Dbname   string `yaml:"dbname"`
 }
 
+// var JMClient = jmapi.NewClient(jmapi.Config{
+// 	ClientType:        jmapi.ClientTypeAPI,
+// 	AutoUpdateHost:    true,
+// 	AutoEnsureCookies: true,
+// })
+
 func LoadConfig(path ...string) error {
 	if len(path) == 0 {
 		path = []string{"config/config.yml"}

@@ -6,8 +6,11 @@ import (
 	_ "laoinBot/plugin/cangmiao_func"
 	_ "laoinBot/plugin/galgame_recommand"
 	_ "laoinBot/plugin/help"
+
+	// _ "laoinBot/plugin/jm"
 	_ "laoinBot/plugin/sendLike"
 	_ "laoinBot/plugin/send_lizi_image"
+	_ "laoinBot/plugin/view_china"
 	_ "laoinBot/plugin/xiaoxiao_func"
 	"log"
 

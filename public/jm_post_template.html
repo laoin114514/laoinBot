@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>漫画详情卡片</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background: #f2f4f6;
+    padding: 30px 20px;
+    display: flex;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+}
+.cover {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+}
+.content {
+    padding: 24px;
+}
+.comic-id {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 6px;
+}
+.comic-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin-bottom: 16px;
+    line-height: 1.3;
+}
+
+.info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.info-row {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+}
+.info-row .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.info-row .label {
+    color: #666;
+    margin-right: 8px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+}
+.tag {
+    padding: 5px 11px;
+    border-radius: 12px;
+    background: #f0f5ff;
+    color: #3e63dd;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.desc {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+.stat-item {
+    text-align: center;
+}
+.stat-num {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1d1d1f;
+}
+.stat-label {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <!-- 封面 -->
+    <img class="cover" src="{{.CoverSrc}}" alt="封面">
+
+    <div class="content">
+        <div class="comic-id">ID：{{.ID}}</div>
+        <h2 class="comic-name">{{.Name}}</h2>
+
+        <div class="info-grid">
+            <div class="info-row">
+                <div class="icon">✍️</div>
+                <span class="label">作者：</span>
+                <span>{{range .Author}}{{.}} {{end}}</span>
+            </div>
+            <!-- <div class="info-row">
+                <div class="icon">📄</div>
+                <span class="label">页数：</span>
+                <span>{{.PageCount}} 页</span>
+            </div>
+            <div class="info-row">
+                <div class="icon">🕒</div>
+                <span class="label">更新：</span>
+                <span>{{.UpdateDate}}</span>
+            </div> -->
+        </div>
+
+        <div class="tags">
+            {{range .Tags}}
+            <span class="tag">{{.}}</span>
+            {{end}}
+        </div>
+
+        <div class="desc">
+            {{.Description}}
+        </div>
+
+        <div class="stats">
+            <!-- <div class="stat-item">
+                <div class="stat-num">{{.Views}}</div>
+                <div class="stat-label">阅读</div>
+            </div> -->
+            <div class="stat-item">
+                <div class="stat-num">{{.Likes}}</div>
+                <div class="stat-label">点赞</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">{{.CommentCount}}</div>
+                <div class="stat-label">评论</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
